@@ -20,7 +20,6 @@ Imports:
     splines,
     klaR,
     stringr,
-    NMF,
     plyr,
     magrittr,
     pamr,
