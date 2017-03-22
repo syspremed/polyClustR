@@ -1,0 +1,16 @@
+exportPattern("^[[:alpha:]]+")
+import(scales,
+    Matrix,
+    lsa,
+    gplots,
+    cluster,
+    abind,
+    igraph,
+    splines,
+    klaR,
+    stringr,
+    NMF,
+    plyr,
+    magrittr,
+    pamr,
+    RColorBrewer)

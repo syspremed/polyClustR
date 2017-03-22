@@ -1,0 +1,27 @@
+Package: polyClustR
+Type: Package
+Title: polyClustR: A pipeline to reconcile clustering solutions
+Version: 0.1.0
+Author: Kate Eason
+Maintainer: Kate Eason <kate.eason@icr.ac.uk>
+Description: polyClustR is a pipeline to reconcile cluster solutions from multiple clustering algorithms.
+    It allows the user to apply multiple clustering algorithms to a dataset, then performs multiple reconciliations to understand the relationships between the solutions.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    scales,
+    Matrix,
+    lsa,
+    gplots,
+    cluster,
+    abind,
+    igraph,
+    splines,
+    klaR,
+    stringr,
+    NMF,
+    plyr,
+    magrittr,
+    pamr,
+    RColorBrewer
