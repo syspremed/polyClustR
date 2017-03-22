@@ -1549,7 +1549,10 @@ testClust <- function(l){
   l$interactive <- interactive
 
   ##
-  install.packages('NMF')
+  installed <- installed.packages()[,1]
+  if (!'NMF' %in% installed){
+    install.packages('NMF')
+  }
   library(NMF)
 
   # Read data
