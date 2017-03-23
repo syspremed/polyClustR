@@ -1544,7 +1544,7 @@ testClust <- function(l){
   ##
   installed <- installed.packages()[,1]
   if (!'NMF' %in% installed){
-    install.packages('NMF')
+    stop('NMF package not detected. Please install NMF package before running this pipeline.')
   }
   library(NMF)
 
@@ -1589,8 +1589,6 @@ testClust <- function(l){
   dir.create(l$hypTitle); dir.create(l$propTitle); dir.create(l$initTitle); dir.create(l$knownTitle); dir.create(l$pamTitle)
   #dir.create(l$protTitle)
   
-  options(warn = 0)
-
   if ("nmf" %in% clusterAlg){
     nmfFolder <- paste(Sys.Date(), "nmf", sep = "_")
     l$nmfTitle <- paste(l$initTitle, "/", nmfFolder, "/", sep = "")
@@ -1598,6 +1596,9 @@ testClust <- function(l){
     l$nmfBasis <- paste(l$nmfTitle, paste(Sys.Date(), l$ref, 'nmf_basis', sep = '_'), sep = '/')
     dir.create(l$nmfBasis)
   }
+  
+  options(warn = 0)
+  
   ##
 
   # Create txt file for all class assignments
