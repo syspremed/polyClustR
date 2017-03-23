@@ -41,7 +41,7 @@ Logical. If FALSE, networks will be plotted with an automatic layout. If TRUE, a
 Runs the polyCluster pipeline and outputs files detailing clustering results from each algorithm, as well as reconcilation between the algorithms' results by approaches detailed in Eason et al. (2017).
 }
 \value{
-\item{NULL}
+  \item{NULL}
 }
 \references{
 Eason et al. (2017)

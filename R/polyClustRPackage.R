@@ -1,4 +1,6 @@
-polyCluster <- function(filename, clusterAlg = c("hc", "pm", "km", "nmf"), maxK = 7, reps = 100, phenoFile = NULL, ref = "", nmfData = NULL, interactive = FALSE){
+polyCluster <- function(filename, clusterAlg = c("hc", "pm", "km", "nmf"),
+                        maxK = 7, reps = 100, phenoFile = NULL, ref = "",
+                        nmfData = NULL, interactive = FALSE){
   #
   #   filename     Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns
   #   clusterAlg   Character vector. Any combination of "hc" (hierarchical clustering), "pm" (partitioning around medoids), "km" (k-means) or "nmf" (nonnegative matrix factorization)
@@ -1019,7 +1021,7 @@ pamCentroids <- function(l){
   geneID <- rownames(l$data)
   batchLabels <- c(rep(1, ncol(l$data)))
 
-  lapply(1:ncol(allAssign), function(i, x, label){
+  centroids <- lapply(1:ncol(allAssign), function(i, x, label){
     cl <- na.omit(as.numeric(x[,i]))
     dataList <- list(batchlabels = batchLabels, x = l$data[,names(na.omit(x[,i]))], y = cl, genenames = geneNames, geneid = geneID)
     dataList <- pamr.knnimpute(dataList)
@@ -1381,15 +1383,6 @@ read.gct <- function(filename = "NULL") {
   return(data_set)
 }
 
-## Script by Thomas Kuilman
-## path argument: path to output folder of analysis (e.g. PATH/my_analysis.GseaPreranked.1470948568349)
-## gene.set argument: name of the gene set (e.g. V$AP1_Q2).
-## It is used in a grep command, so multiple matching is possible.
-## Also, R regular expressions can be handled, e.g. "IL2[0-9]$"
-## Leading "V$" from gene set names are stripped to allow using the grep command.
-## In case of multiple grep matches a warning is given and the first option is plotted.
-## class.name: the name of the class / variable to which genes have been correlated (e.g. drug-treatment)
-
 testClust <- function(l){
   #
   # Compares clusters found by clustering algorithms via: the proportion of common samples; a hypergeometric test;
@@ -1529,8 +1522,8 @@ testClust <- function(l){
 
   nodeEdge(l, c("hyper", "minprop"))
 
-  setwd(l$protTitle)
-  protoApp <- protoType(l)
+  #setwd(l$protTitle)
+  #protoApp <- protoType(l)
 
   setwd(l$wd)
   return(l)
@@ -1583,18 +1576,19 @@ testClust <- function(l){
   initFolder <- paste(Sys.Date(), ref, "initial", sep = "_")
   hypFolder <- paste(Sys.Date(), ref, "hypergeometric", sep = "_")
   propFolder <- paste(Sys.Date(), ref, "proportion", sep = "_")
-  protFolder <- paste(Sys.Date(), ref, "prototypes", sep = "_")
+  #protFolder <- paste(Sys.Date(), ref, "prototypes", sep = "_")
   pamFolder <- paste(Sys.Date(), ref, "pam", sep = "_")
 
   l$initTitle <- paste(l$analysisTitle, initFolder, "/", sep = "")
   l$hypTitle <- paste(l$analysisTitle, hypFolder, "/", sep = "")
   l$propTitle <- paste(l$analysisTitle, propFolder, "/", sep = "")
-  l$protTitle <- paste(l$analysisTitle, protFolder, "/", sep = "")
+  #l$protTitle <- paste(l$analysisTitle, protFolder, "/", sep = "")
   l$pamTitle <- paste(l$analysisTitle, pamFolder, "/", sep = "")
   l$knownTitle <- paste0(l$analysisTitle, initFolder, "/", Sys.Date(), "_known_hypergeometric", "/")
 
-  dir.create(l$hypTitle); dir.create(l$propTitle); dir.create(l$protTitle); dir.create(l$initTitle); dir.create(l$knownTitle); dir.create(l$pamTitle)
-
+  dir.create(l$hypTitle); dir.create(l$propTitle); dir.create(l$initTitle); dir.create(l$knownTitle); dir.create(l$pamTitle)
+  #dir.create(l$protTitle)
+  
   options(warn = 0)
 
   if ("nmf" %in% clusterAlg){
@@ -1629,5 +1623,5 @@ testClust <- function(l){
 
   writeLines(capture.output(sessionInfo()), paste(l$analysisTitle, Sys.Date(), "_", l$ref, "_session_info.txt", sep = ""))
   writeLines('Success!')
-}
+  }
 
