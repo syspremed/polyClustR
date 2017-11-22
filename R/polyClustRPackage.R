@@ -104,5 +104,5 @@ polyCluster <- function(filename, clusterAlg = c("hc", "pm", "km", "nmf"),
 
   writeLines(capture.output(sessionInfo()), paste(l$analysisTitle, Sys.Date(), "_", l$ref, "_session_info.txt", sep = ""))
   writeLines('Success!')
-  }
+}
 
