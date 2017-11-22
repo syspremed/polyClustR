@@ -13,7 +13,7 @@ polyCluster(filename, clusterAlg = c("hc", "pm", "km", "nmf"),
 }
 \arguments{
   \item{filename}{
-Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns.
+Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns. The full file path is currently required.
 }
   \item{clusterAlg}{
 Character vector. Any combination of "hc" (hierarchical clustering), "pm" (partitioning around medoids), "km" (k-means) or "nmf" (nonnegative matrix factorization).
@@ -22,16 +22,16 @@ Character vector. Any combination of "hc" (hierarchical clustering), "pm" (parti
 Integer > 2. The maximum number of clusters of samples to evaluate.
 }
   \item{reps}{
-Integer. The number of resampling (for "hc", "pm" and "km") or starting seed ("nmf") iterations.n.
+Integer. The number of resampling (for "hc", "pm" and "km") or starting seed ("nmf") iterations.
 }
   \item{phenoFile}{
-Character string. File name of known phenotypes, with sample name in first column and phenotype in second column.
+Character string. File name of known phenotypes, with sample name in first column and phenotype in second column. The full file path is currently required.
 }
   \item{ref}{
 Character string. Reference with which to name the output of the analysis.
 }
   \item{nmfData}{
-Character string. File path to the result of a previous NMF clustering by this function, in order to save time.
+Character string. File path to the result of a previous NMF clustering by this function, in order to save time. The full file path is currently required.
 }
   \item{interactive}{
 Logical. If FALSE, networks will be plotted with an automatic layout. If TRUE, a users can customise the layout through tkplot.
