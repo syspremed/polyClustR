@@ -4,6 +4,8 @@
   #'  known phenotypes via a hypergeometric test and creates a
   #'  pdf heatmap to show the resulting p values.
   #' 
+  #' @param clusterTable  Numeric matrix. A matrix giving the number of samples shared between all clusters and all phenotypes
+  #' @param outfile Character string. Prepended to the p value and heatmap filenames
   #' @param l The output of a call to \code{performClust}.
   #'
   #' @details Not intended for use outside of a call to \code{polyCluster}.

@@ -13,7 +13,7 @@ pamCentroids(l)
 Returns a list of PAM centroids for all communities.
 }
 \description{
-Calculates PAM centroids of community subtypes
+Calculates PAM centroids of community subtypes.
 }
 \details{
 Not intended for use outside of a call to \code{polyCluster}.

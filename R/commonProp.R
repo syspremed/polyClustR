@@ -1,7 +1,7 @@
   #' Calculating the proportion of maximum intersection (PMI)
   #'  
   #' @description Finds the relative proportion of common samples between
-  #'  clusters from different algorithms, i.e. (A ∩ B)/min{|A|, |B|}.
+  #'  clusters from different algorithms, i.e. (A ∩ B)/min\{|A|, |B|\}.
   #'  Then calculates the euclidean and cosine distance metrics for the propotions.
   #'  Creates a pdf heatmap to show distances.
   #'

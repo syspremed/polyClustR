@@ -1,6 +1,6 @@
   #' PAM centroids
   #'
-  #' @description Calculates PAM centroids of community subtypes
+  #' @description Calculates PAM centroids of community subtypes.
   #'
   #' @param l The output of a call to \code{testClust}.
   #' 

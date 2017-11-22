@@ -7,6 +7,10 @@
 hyperClust3(clusterTable, outfile, l)
 }
 \arguments{
+\item{clusterTable}{Numeric matrix. A matrix giving the number of samples shared between all clusters and all phenotypes}
+
+\item{outfile}{Character string. Prepended to the p value and heatmap filenames}
+
 \item{l}{The output of a call to \code{performClust}.}
 }
 \value{
