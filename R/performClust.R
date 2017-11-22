@@ -1,17 +1,16 @@
+  #' polyCluster clustering
+  #' 
+  #' @description Performs clustering via the \code{nmf} and \code{CCP} functions.
+  #'  Also calculates gap score and cophenetic corellation coefficient for each consensus matrix,
+  #'  and creates pdf plots of these.
+  #'
+  #' @param l A list of parameters required to carry out the clustering
+  #' @param nmfData Character string. File path to the result of a previous NMF clustering by this function, in order to save time.
+  #'
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+
 performClust <- function(l, nmfData = NULL){
-  #
-  # Performs clustering via the nmf and CCP functions.
-  # Also calculates gap score and cophenetic corellation coefficient for each consensus matrix,
-  # and creates pdf plots of these.
-  # Returns a list of: a matrix of the cophenetic coefficients (algorithms in columns, k-values in rows); an
-  # an array of all cluster memberships (algorithms x samples x k-value); and a matrix of gap scores.
-  #
-  # data        Numeric matrix. Expression values with genes in rows and samples in columns
-  # maxK        Integer. The maximum number of clusters to evaluate
-  # reps        Integer. The number of resamplings (for hc, km and pm) or repetitions (for nmf) for consensus clustering
-  # l$clusterAlg  Character vector. The clustering algorithms to be applied to the data. Any combination of "hc" (heirarchical),
-  #             "km" (k-means), "pm" (partitioning around medoids), "nmf" (nonnegative matrix factorisation)
-  #
   
   setwd(l$initTitle)
   if (!all(l$clusterAlg %in% c("hc", "pm", "km", "nmf"))){

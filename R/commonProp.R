@@ -1,17 +1,16 @@
+  #' Calculating the proportion of maximum intersection (PMI)
+  #'  
+  #' @description Finds the relative proportion of common samples between
+  #'  clusters from different algorithms, i.e. (A ∩ B)/min{|A|, |B|}.
+  #'  Then calculates the euclidean and cosine distance metrics for the propotions.
+  #'  Creates a pdf heatmap to show distances.
+  #'
+  #' @param l The output of a call to \code{performClust}.
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+  #'
+
 commonProp <- function(l){
-  #
-  # Finds the relative proportion of common samples between
-  # clusters from different algorithms, i.e. (A ∩ B)/min{|A|, |B|}.
-  # Then calculates the euclidean and cosine distance metrics for the propotions.
-  # Creates a pdf heatmap to show distances.
-  # Returns an array of dimension n x n x 2 containing the distances between
-  # all combinations of the n clusters, in the two distance metrics.
-  #
-  # labelledClasses  Character matrix. Algorithms in columns and samples in rows, showing the class membership
-  #                  of each sample in each algorithm. Clusters from each algorithm should be easily distinguishable
-  #                  ('labelled'), so that e.g. heirarchical cluster 1 and k-means cluster 1 have different names
-  # clusterTable     Numeric matrix. An n x n matrix giving the number of samples shared between two clusters
-  #
   
   # Divide the number of shared samples by the number of samples in the smallest cluster
   clusterMin <- l$clusterTable

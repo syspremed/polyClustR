@@ -1,11 +1,14 @@
+  #' Test clustering result.
+  #'
+  #' @description Compares clusters found by clustering algorithms via the proportion
+  #'  of common samples and a hypergeometric test.
+  #'
+  #' @param l List. The output of a call to performClust
+  #' 
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+
 testClust <- function(l){
-  #
-  # Compares clusters found by clustering algorithms via: the proportion of common samples; a hypergeometric test;
-  # and the protovectors method described in "Using Cluster Ensemble and Validation to Identify
-  # Subtypes of Pervasive Developmental Disorders", Shen et. al. (2007)
-  #
-  # clustRes  List. The output of a call to performClust
-  #
   
   sampleClasses <- array(0, c(ncol(l$data), length(l$clusterAlg))) # An array of the best fitting class assignments as found by each algorithm
   rownames(sampleClasses) <- colnames(l$data)

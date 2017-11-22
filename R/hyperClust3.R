@@ -1,13 +1,16 @@
+  #'Hypergeometric test of community overlap
+  #'
+  #' @description Compares clusters discovered from reconciliation methods with
+  #'  known phenotypes via a hypergeometric test and creates a
+  #'  pdf heatmap to show the resulting p values.
+  #' 
+  #' @param l The output of a call to \code{performClust}.
+  #'
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+  #'
+
 hyperClust3 <- function(clusterTable, outfile, l){
-  #
-  # Compares clusters discovered from reconciliation methods with
-  # known phenotypes via a hypergeometric test and creates a
-  # pdf heatmap to show the resulting p values.
-  # Returns a matrix of the resulting adjusted p-values.
-  #
-  # clusterTable  Numeric matrix. A matrix giving the number of samples shared between all clusters and all phenotypes
-  # outfile       Character string. Prepended to the p value and heatmap filenames
-  #
   
   # Do a hypergeometric test between each pair of clusters
   raw.p <- matrix(NA, nrow(clusterTable), ncol(clusterTable))

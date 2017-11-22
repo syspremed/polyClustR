@@ -1,7 +1,14 @@
+  #' PAM centroids
+  #'
+  #' @description Calculates PAM centroids of community subtypes
+  #'
+  #' @param l The output of a call to \code{testClust}.
+  #' 
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns a list of PAM centroids for all communities.
+  #'
+
 pamCentroids <- function(l){
-  #
-  # Calculates PAM centroids of community subtypes.
-  #
   
   allAssign <- data.frame(t(read.delim(l$allClust)))
   geneNames <- rownames(l$data)

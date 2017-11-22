@@ -1,20 +1,16 @@
+  #' Node-edge graphs
+  #' 
+  #' @description Creates a pdf node-edge graph from each reconciliation method
+  #'  and identifies which meta-clusters each sample belongs to. Then uses
+  #'  hyperClust3 to perform a hypergeometric test betwen meta-clusters
+  #'  and known phenotypes.
+  #' 
+  #' @param recons Character vector. The names of the reconcilliation methods to be used (for naming/annotation purposes only)
+  #' @param l The output of a call to \code{performClust}.
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+
 nodeEdge <- function(l, recons){
-  #
-  # Creates a pdf node-edge graph from each reconciliation method
-  # and identifies which meta-clusters each sample belongs to. Then uses
-  # hyperClust3 to perform a hypergeometric test betwen meta-clusters
-  # and known phenotypes.
-  #
-  # weightMeasures   List. Each element of the list should be a numeric matrix giving the different measures
-  #                  by which the thickness of edges should be calculated, e.g. p-values
-  # recons           Character vector. The names of the reconcilliation methods to be used (for naming/annotation purposes only)
-  # labelledClasses  Character matrix. Algorithms in columns and samples in rows, showing the class membershi[]
-  #                  of each sample in each algorithm. Clusters from each algorithm should be easily distinguishable
-  #                  ('labelled'), so that e.g. heirarchical cluster 1 and k-means cluster 1 have different names
-  # clusterSize      Numeric vector. The number of samples in each cluster.
-  # titles           Character vector. The folders each reconciliation should be saved to
-  # phenoF           Character vector. The known phenotypes of the samples, with the name of each element being the sample name
-  #
   
   weightMeasures <- list(l$adjustP, l$distArr)
   titles <- c(l$hypTitle, l$propTitle)

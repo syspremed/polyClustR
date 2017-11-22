@@ -1,34 +1,37 @@
-CCP <- function (d = NULL, maxK = maxK, reps = reps, pItem = 0.8, pFeature = 1,
-                 clusterAlg = "hc", title = "untitled_consensus_cluster",
-                 innerLinkage = "average", finalLinkage = "average", distance = "euclidean",
-                 ml = NULL, tmyPal = NULL, seed = NULL, plot = "pdf", writeTable = TRUE,
-                 weightsItem = NULL, weightsFeature = NULL, verbose = F, corUse = "everything") {
-  #
-  # Takes an expression matrix and finds clusters via hierarchical clustering, k-means or partitioning around medoids.
-  # Adapted from ConsensusClusterPlus of the ConsensusClusterPlus package.
-  # Returns a list including a lot of information for each k, most importantly the consensus matrices and class assignments
-  #
-  # From the ConsensusClusterPlus help page:
-  # d              Numeric matrix. Data to be clustered, where columns=items/samples and rows are features
-  # maxK           Integer. Maximum number of clusters to evaluate
-  # reps           Integer. Number of subsamples so consensus can be evaluated
-  # pItem          Numerical value. Proportion of items (columns) to sample in each subsampling
-  # pFeature       Numerical value. Proportion of features (rows) to sample in each subsampling
-  # clusterAlg     Character string. Cluster algorithm: 'hc' heirarchical (hclust), 'pam' for paritioning around medoids, 'km' for k-means
-  # title          Character string. Name for output directory. Directory is created only if plot is not NULL or writeTable is TRUE. This title can be an abosulte or relative path.
-  # innerLinkage   heirarchical linkage method for subsampling
-  # finalLinkage   heirarchical linkage method for consensus matrix
-  # distance       Character string. 'pearson': (1 - Pearson correlation), 'spearman' (1 - Spearman correlation), 'euclidean', 'binary', 'maximum', 'canberra', 'minkowski" or custom distance function.
-  # ml             Optional. Prior result. If supplied then only do graphics and tables
-  # tmyPal         Optional. Character vector. Colors for consensus matrix
-  # seed           Optional. Numerical. Sets random seed for reproducible results
-  # plot           Character string. NULL - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets
-  # writeTable     Logical. TRUE - write ouput and log to csv
-  # weightsItem    Optional. Numerical vector. Weights to be used for sampling items
-  # weightsFeature Optional. Numerical vector. Weights to be used for sampling features
-  # verbose        Logical. If TRUE, print messages to the screen to indicate progress. This is useful for large datasets
-  # corUse         Optional. Character string. Specifies how to handle missing data in correlation distances 'everything','pairwise.complete.obs', 'complete.obs'
-  #
+  #' Consensus clustering
+  #'
+  #' @description Takes an expression matrix and finds clusters via hierarchical clustering, k-means or partitioning around medoids. 
+  #'  Adapted from ConsensusClusterPlus of the ConsensusClusterPlus package, see \code{?ConsensusClusterPlus}.
+  #'  
+  #' @param d              Numeric matrix. Data to be clustered, where columns=items/samples and rows are features
+  #' @param maxK           Integer. Maximum number of clusters to evaluate
+  #' @param reps           Integer. Number of subsamples so consensus can be evaluated
+  #' @param pItem          Numerical value. Proportion of items (columns) to sample in each subsampling
+  #' @param pFeature       Numerical value. Proportion of features (rows) to sample in each subsampling
+  #' @param clusterAlg     Character string. Cluster algorithm: 'hc' heirarchical (hclust), 'pam' for paritioning around medoids, 'km' for k-means
+  #' @param title          Character string. Name for output directory. Directory is created only if plot is not NULL or writeTable is TRUE. This title can be an abosulte or relative path.
+  #' @param innerLinkage   heirarchical linkage method for subsampling
+  #' @param finalLinkage   heirarchical linkage method for consensus matrix
+  #' @param distance       Character string. 'pearson': (1 - Pearson correlation), 'spearman' (1 - Spearman correlation), 'euclidean', 'binary', 'maximum', 'canberra', 'minkowski" or custom distance function.
+  #' @param ml             Optional. Prior result. If supplied then only do graphics and tables
+  #' @param tmyPal         Optional. Character vector. Colors for consensus matrix
+  #' @param seed           Optional. Numerical. Sets random seed for reproducible results
+  #' @param plot           Character string. NULL - print to screen, 'pdf', 'png', 'pngBMP' for bitmap png, helpful for large datasets
+  #' @param writeTable     Logical. TRUE - write ouput and log to csv
+  #' @param weightsItem    Optional. Numerical vector. Weights to be used for sampling items
+  #' @param weightsFeature Optional. Numerical vector. Weights to be used for sampling features
+  #' @param verbose        Logical. If TRUE, print messages to the screen to indicate progress. This is useful for large datasets
+  #' @param corUse         Optional. Character string. Specifies how to handle missing data in correlation distances 'everything','pairwise.complete.obs', 'complete.obs'
+  #' 
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns a list including a lot of information for each k, most importantly the consensus matrices and class assignments
+  #'
+ 
+ CCP <- function (d = NULL, maxK = maxK, reps = reps, pItem = 0.8, pFeature = 1,
+                  clusterAlg = "hc", title = "untitled_consensus_cluster",
+                  innerLinkage = "average", finalLinkage = "average", distance = "euclidean",
+                  ml = NULL, tmyPal = NULL, seed = NULL, plot = "pdf", writeTable = TRUE,
+                  weightsItem = NULL, weightsFeature = NULL, verbose = F, corUse = "everything") {
   
   ## CCP Nested Functions
   

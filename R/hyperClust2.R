@@ -1,14 +1,17 @@
+  #' Hypergeometric test of cluster overlap
+  #'
+  #' @description Compares all clusters found by different algorithms via a
+  #'  hypergeometric test and creates a pdf heatmap to show
+  #'  the resulting p values.
+  #'  where n is the total number of clusters found across the algorithms.
+  #'  
+  #' @param l The output of a call to \code{performClust}.
+  #' 
+  #' @details Not intended for use outside of a call to \code{polyCluster}.
+  #' @return Returns an updated list \code{l}.
+  #'
+  
 hyperClust2 <- function(l){
-  #
-  # Compares all clusters found by different algorithms via a
-  # hypergeometric test and creates a pdf heatmap to show
-  # the resulting p values.
-  # Returns an n x n matrix of the resulting adjusted p-values,
-  # where n is the total number of clusters found across the algorithms.
-  #
-  # clusterTable  Numeric matrix. An n x n matrix giving the number of samples shared between two clusters
-  # outfile       Character string. Prepended to the p value and heatmap filenames
-  #
   
   # Do a hypergeometric test between each pair of clusters
   raw.p <- matrix(NA, nrow(l$clusterTable), ncol(l$clusterTable))
