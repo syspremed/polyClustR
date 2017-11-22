@@ -2,16 +2,18 @@ polyCluster <- function(filename, clusterAlg = c("hc", "pm", "km", "nmf"),
                         maxK = 7, reps = 100, phenoFile = NULL, ref = "",
                         nmfData = NULL, interactive = FALSE){
   #
-  #   filename     Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns
-  #   clusterAlg   Character vector. Any combination of "hc" (hierarchical clustering), "pm" (partitioning around medoids), "km" (k-means) or "nmf" (nonnegative matrix factorization)
-  #   maxK         Integer > 2. The maximum number of clusters of samples to evaluate.
-  #   reps         Integer. The number of resampling (for "hc", "pm" and "km") or starting seed ("nmf") iterations.
-  #   phenoFile    Character string. File name of known phenotypes, with sample name in first column and phenotype in second column.
-  #   ref          Character string. Reference with which to name the output of the analysis.
-  #   nmfData      Character string. File path to the result of a previous NMF clustering by this function, in order to save time.
-  #   interactive  Logical. If FALSE, networks will be plotted with an automatic layout. If TRUE, a users can customise the layout through tkplot.
+  #'   @param filename     Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns
+  #'   @param clusterAlg   Character vector. Any combination of "hc" (hierarchical clustering), "pm" (partitioning around medoids), "km" (k-means) or "nmf" (nonnegative matrix factorization)
+  #'   @param maxK         Integer > 2. The maximum number of clusters of samples to evaluate.
+  #'   @param reps         Integer. The number of resampling (for "hc", "pm" and "km") or starting seed ("nmf") iterations.
+  #'   @param phenoFile    Character string. File name of known phenotypes, with sample name in first column and phenotype in second column.
+  #'   @param ref          Character string. Reference with which to name the output of the analysis.
+  #'   @param nmfData      Character string. File path to the result of a previous NMF clustering by this function, in order to save time.
+  #'   @param interactive  Logical. If FALSE, networks will be plotted with an automatic layout. If TRUE, a users can customise the layout through tkplot.
+  #'   @return Runs the entire polyCluster pipeline and provides output in the current working directory.
+  #'   @examples polyCluster('path/to/expression/file', clusterAlg = c('hc', 'km'), ref = 'test_run')
   #
-
+  
   l <- list()
 
   l$colPal <- c("darkorange1", "mediumvioletred", "seagreen", "powderblue", "rosybrown1")
