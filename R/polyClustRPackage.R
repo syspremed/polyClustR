@@ -1228,7 +1228,7 @@ performClust <- function(l, nmfData = NULL){
   return(l)
 }
 
-protoType <- function(l){
+#protoType <- function(l){
   #
   # Compares clusters found by different algorithms via the protovectors method
   # described in "Using Cluster Ensemble and Validation to Identify

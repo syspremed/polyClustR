@@ -1,0 +1,19 @@
+---
+title: "polyClustR"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+## Installation & Usage
+
+```{r cars, eval=FALSE}
+devtools::install_github('syspremed/polyClustR')
+library(polyClustR)
+
+polyCluster('path/to/expression/file', clusterAlg = c('hc', 'km'), ref = 'test_run')
+```
