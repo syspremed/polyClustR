@@ -660,17 +660,10 @@ hyperClust3 <- function(clusterTable, outfile, l){
   mtext("known", side = 1, outer = T)
   mtext("nmf", side = 2, outer = T)
 
-  tryCatch(heatmap.2(adjust.p, trace = "none", density.info = "density", denscol = "black", scale = "none", col = l$colRain, breaks = c(0, seq(0.05, 1, length.out = length(l$colRain)))), error = function(e) e)
+  tryCatch(heatmap.2(adjust.p, trace = "none", density.info = "density",
+                     denscol = "black", scale = "none", col = l$colRain,
+                     breaks = c(0, seq(0.05, 1, length.out = length(l$colRain)))), error = function(e) e)
 
-#   correctInput <- FALSE
-#   wasError <- FALSE
-#   browser()
-#   while (correctInput == FALSE){
-#     wasError <- tryCatch(heatmap.2(adjust.p, trace = "none", density.info = "density", denscol = "black", scale = "none", col = l$colRain), error = function(e) {print("The cutoff chosen only creates one metacluster. Please try again with a lower cutoff."); wasError <- TRUE; return(wasError)})
-#     if (wasError == FALSE){
-#       correctInput <- TRUE
-#     }
-#   }
   dev.off()
 
   return(adjust.p)
@@ -742,7 +735,6 @@ nodeEdge <- function(l, recons){
       names(classPairsM) <- c("class1", "class2", "weight")
 
       # Remove edges that fall outside cutoff
-      #classPairsCut <- classPairsM[classPairsM[,3] <= 0.2,]
       classPairsCut <- classPairsM[classPairsM[,3] < 1,]
       classPairsLog <- classPairsCut
       classPairsLog[classPairsLog == 0] <- .Machine$double.eps
@@ -768,14 +760,9 @@ nodeEdge <- function(l, recons){
 
       if(!is.null(l$phenoFile)){
         subCols <- brewer.pal(length(unique(na.omit(l$pheno))), 'Set2')
-        #subCols <- c("#EB1E28FF", "#7CCB2CFF", "#5C1219FF", "#3C4BA7FF", "#B834A1FF")
-        #names(subCols) <- c('Enterocyte', 'Goblet-like', 'Inflammatory', 'Stem-like' ,'TA')
-        #names(subCols) <- c('basal', 'erbb2', 'lumA', 'lumb', 'norm')
+      
         names(subCols) <- unique(na.omit(l$pheno))
 
-        #         V(NEgraph)$color <- V(NEgraph)$frame.color <- sapply(1:nrow(l$knownSubsP), function(i){
-        #           desat(subCols[as.character(l$knownSubsP$kSubtypes)[i]], 1-rescale(l$knownSubsP$pVals, 0, 0.9)[i])
-        #           })
         V(NEgraph)$color <- V(NEgraph)$frame.color <- sapply(1:nrow(l$knownSubsP), function(i){
           if (is.na(l$knownSubsP$pVals[i])){
             V(NEgraph)$color[i] <- 'gray65'
@@ -792,8 +779,6 @@ nodeEdge <- function(l, recons){
       }
 
       NEgraph$layout <- layout_with_fr(NEgraph)
-      #edgeBreaks <- cumsum(seq(0, 2, by = 0.1)) %>%
-      #extract(., c(1, which(max(E(NEgraph)$weight) > .)+1))
       edgeBreaks <- c(seq(0, -log10(0.05), length.out = 9), -log10(.Machine$double.xmin))
       edgeBins <- cut(edgeWeight, edgeBreaks)
       allEdgeCol <- rev(rainbow(nlevels(edgeBins), start = 0.05, end = 0.6))
@@ -847,8 +832,6 @@ nodeEdge <- function(l, recons){
 
       ## Finding samples in node-edge metaclusters
 
-      #      NElist <- list()
-
       names <- names(l$numTable)
 
       clustList <- communities(commun)
@@ -862,90 +845,6 @@ nodeEdge <- function(l, recons){
       }
       write.table(NEClust, paste(Sys.Date(), recons[i], "NE_metaclusters.txt", sep = "_"), sep = "\t", quote = F)
 
-#       old <- FALSE ####
-#       if (old == TRUE){
-#           # Count how many times a sample appears in a metacluster ###
-#         NEarr <- matrix(0, nrow(l$labelledClasses), length(unique(NEClust[,2])))
-#         rownames(NEarr) <- rownames(l$labelledClasses)
-#         colnames(NEarr) <- LETTERS[1:ncol(NEarr)]
-#         for (h in 1:nrow(NEarr)){
-#           for (j in 1:ncol(NEarr)){
-#             for (m in 1:nrow(NEClust)){
-#               if ((NEClust[m, 2] == LETTERS[j]) && (as.character(NEClust[m, 1]) %in% as.matrix(l$labelledClasses[h,]))){
-#                 NEarr[h, j] <- NEarr[h, j] + 1
-#               }
-#             }
-#           }
-#         }
-#         write.table(NEarr, paste(Sys.Date(), recons[i], "NE_samplecount.txt", sep = "_"), sep = "\t", quote = F)
-#
-#         # Find which samples are common to clusters in a metacluster
-#         NEind <- which((apply(NEarr, 1, max) != 1) & apply(NEarr, 1, function(x){sum(x == max(x))}) == 1)
-#         NEsub <- NEarr[NEind,]
-#         NEsub <- as.matrix(NEsub)
-#         colnames(NEsub) <- colnames(NEarr)
-#         #NEmemb <- rep(NA, length.out = nrow(NEsub))
-#         NEmemb <- colnames(NEsub)[apply(NEsub, 1, function(x){which(x == max(x))})]
-#         names(NEmemb) <- rownames(NEsub)
-# #        #       NEexp <- data_set[,NEind]##
-#         #       for(j in 1:ncol(NEsub)){
-#         #         for(m in 1:nrow(NEsub)){
-#         #           if(NEsub[m, j] == max(NEsub[m,])){
-#         # #             colnames(NEexp)[m] <- paste(colnames(NEsub)[j], colnames(NEexp)[m])
-#         #             NEmemb[rownames(NEsub)[m]] <- colnames(NEsub)[j]
-#         #           }
-#         #         }
-#         #       }
-#
-#
-#         # Find outlying metaclusters (those which do not include each algorithm at least once)
-#         # and which samples are common to all clusters within them
-#         #NEoutclust <- which((apply(NEarr, 2, max) != 1) & (apply(NEarr, 2, max) != length(l$clusterAlg)))
-#         NEuniqalg <- lapply(clustList, function(x){length(unique(str_extract(x, '[A-Z]+')))})
-#         NEoutclust <- names(NEuniqalg)[NEuniqalg != 1 & NEuniqalg != length(l$clusterAlg)]
-#
-#         if (length(NEoutclust) != 0){
-#           NEoutsub <- NEarr[,NEoutclust]
-#           NEoutsub <- as.matrix(NEoutsub)
-#           NEoutlier <- which((apply(NEoutsub, 1, max) != 0) & (apply(NEoutsub, 1, max) != 1))
-#
-#           if (length(NEoutlier) != 0){
-#             NEoutsub <- as.matrix(NEoutsub[NEoutlier,])
-#             colnames(NEoutsub) <- colnames(NEarr)[NEoutclust]
-#             NEoutmemb <- colnames(NEoutsub)[apply(NEoutsub, 1, function(x){which(x == max(x))})]
-#             names(NEoutmemb) <- rownames(NEoutsub)
-# #            #           NEoutexp <- data_set[,NEoutlier]##
-#             #           for(j in 1:ncol(NEoutsub)){
-#             #             for(m in 1:nrow(NEoutsub)){
-#             #               if(NEoutsub[m, j] == max(NEoutsub[m,])){
-#             # #                 colnames(NEoutexp)[m] <- paste(colnames(NEoutsub)[j], colnames(NEoutexp)[m])
-#             #                 NEoutmemb[rownames(NEoutsub)[m]] <- colnames(NEoutsub)[j]
-#             #               }
-#             #             }
-#             #           }
-#           }
-#
-#           # Metacluster assignments of all samples
-#           NEall <- rep(NA, nrow(NEarr))
-#           names(NEall) <- rownames(NEarr)
-#           NEall[c(names(NEmemb), names(NEoutmemb))] <- c(NEmemb, NEoutmemb)
-#         }
-#
-#         #      else {
-#         NEinclust <- which(apply(NEarr, 2, max) != 1)
-#         NEinsub <- as.matrix(NEarr[,NEinclust])
-#         NEinsamp <- which(apply(NEinsub, 1, max) == length(l$clusterAlg))
-#         NEinsub <- as.matrix(NEinsub[NEinsamp,])
-#         colnames(NEinsub) <- colnames(NEarr)[NEinclust]
-#         NEall <- rep(NA, length.out = nrow(NEarr))
-#         names(NEall) <- rownames(NEarr)
-#         NEall[rownames(NEinsub)] <- colnames(NEinsub)[apply(NEinsub, 1, which.max)]
-#         #      }###
-#         # cat(recons[i], NEall, file = allClust, sep = c(rep("\t", nrow(l$labelledClasses)), "\n"), append = T)
-#
-#         #       NEexp <- NEexp[,order(colnames(NEexp))]
-#         #       write.table(NEexp, file = paste(Sys.Date(), recons[i], cut, "node_edge_expression.txt", sep = "_"), sep = "\t", quote = F)
-#       }
 
       NEmap <- data.frame(lapply(l$labelledClasses, function(x){
         y <- NEClust$NEclust[match(x, NEClust$algClust)]
@@ -980,27 +879,6 @@ nodeEdge <- function(l, recons){
         l[[paste0('knownTable_', recons[i])]] <- table(knownSub[,1], knownSub[,2])
         knownHyper <- hyperClust3(l[[paste0('knownTable_', recons[i])]], paste(Sys.Date(), recons[i], "known", sep = "_"), l)
 
-#        # Dealing with single clusters#####
-        #         if (length(single != 0)){
-        #
-        #           allSingleSamples <- vector()
-        #           singleMat <- matrix(nrow = nrow(l$labelledClasses), ncol = 1)
-        #           rownames(singleMat) <- rownames(l$labelledClasses)
-        #           singleClust <- LETTERS[(ncol(NEarr)+1-length(single)):(ncol(NEarr))]
-        #           browser()
-        #           for (p in 1:length(single)){
-        #             singleSamples <- names(which(rowSums(l$labelledClasses == singleNames[p]) == 1))
-        #             singleMat[singleSamples,] <- singleClust[p]
-        #
-        #             allSingleSamples <- c(allSingleSamples, singleSamples)
-        #           }
-        #
-        #           allSingleSamples <- allSingleSamples[!(allSingleSamples %in% allSingleSamples[duplicated(allSingleSamples)])]
-        #           singleSub <- cbind(l$pheno1, singleMat)
-        #           l$singleTable <- table(singleSub[,1], singleSub[,2])
-        #
-        #           hyperClust3(t(l$singleTable), paste(Sys.Date(), "singleclusters", recons[i], cut, "known", sep = "_"), l)
-        #         }####
       }
 
       pdf(paste(Sys.Date(), "_", recons[i], "_NE_silhouette.pdf", sep = ""), height = 7, width = 9)
@@ -1035,7 +913,6 @@ pamCentroids <- function(l){
   }, x = allAssign, label = names(allAssign))
 }
 
-# performClust <- function(data, maxK, reps, l$clusterAlg = c("hc", "km", "nmf"), nmfData = NULL){
 performClust <- function(l, nmfData = NULL){
   #
   # Performs clustering via the nmf and CCP functions.
@@ -1096,8 +973,6 @@ performClust <- function(l, nmfData = NULL){
     writeLines("Starting nonnegative matrix factorization clustering (this may take some time)...")
 
     if(is.null(nmfData)){
-#       nmfccp <- NMF::nmf(l$data, k.init = 2, k.final = l$maxK, num.clusterings = l$reps, maxniter = 1000, error.function = "euclidean", doc.string = paste(Sys.Date(), "nmf", sep="_"))
-#       save(nmfccp, file = paste(Sys.Date(), "_nmf_result.rda", sep = ""))
       datapos <- nneg(l$data, method = 'pmax')
       nmfccp <- NMF::nmf(datapos, 2:l$maxK, method = 'brunet', nrun = l$reps)
 
@@ -1228,140 +1103,6 @@ performClust <- function(l, nmfData = NULL){
   return(l)
 }
 
-#protoType <- function(l){
-  #
-  # Compares clusters found by different algorithms via the protovectors method
-  # described in "Using Cluster Ensemble and Validation to Identify
-  # Subtypes of Pervasive Developmental Disorders", Shen et. al. (2007)
-  # Then uses hyperClust3 to do a hypergeometric test between prototype subtypes
-  # and known phenotypes.
-  # Returns a list of all the samples present in each protovector.
-  #
-  # samplesClasses  Numeric matrix. With algorithms in columns and samples in rows, this gives the class assignments
-  #                 of each sample according to each algorithm. Classes should be named by numbers only
-  # phenoF          Character vector. The known phenotypes of the samples, with the name of each element being the sample name.
-  #
-
-  # Find the prototypes represented in the sample
-  sampleClasses <- sapply(l$labelledClasses, str_extract_all, pattern='[0-9]{1,2}')
-  sampleClasses <- sapply(data.frame(sampleClasses), as.numeric)
-  rownames(sampleClasses) <- rownames(l$labelledClasses)
-  protoVec <- data.frame(unique(sampleClasses))
-  agglist <- list()
-  for(i in 1:ncol(sampleClasses)){
-    agglist[[i]] <- as.numeric(sampleClasses[,i])
-  }
-
-  agg <- aggregate(sampleClasses, by = agglist, FUN = sum)
-  agg$freq <- agg[,ncol(agg)]/agg[,ncol(agg)-length(l$clusterAlg)] # Find how many samples are represented by each prototype
-
-  for (i in length(l$clusterAlg):1){
-    protoVec <- protoVec[order(protoVec[,i]),]
-    agg <- agg[order(agg[,i]),]
-  }
-
-  # Order prototypes by frequency and name as letters
-  protoFreq <- data.frame(protoVec)
-  protoFreq$freq <- agg$freq
-  protoVec <- protoVec[order(protoFreq$freq, decreasing=T),]
-  protoFreq <- protoFreq[order(protoFreq$freq, decreasing=T),]
-
-  names <- LETTERS
-  for (i in 1:(floor(nrow(protoVec)/26))){
-    names <- c(names, paste(LETTERS, i, sep = ""))
-  }
-
-  rownames(protoVec) <- names[1:nrow(protoVec)]
-  rownames(protoFreq) <- names[1:nrow(protoVec)]
-
-  # Plot prototype frequency
-  pdf(paste(l$protTitle, Sys.Date(), "_", "prototype_frequency.pdf", sep=""), height=13, width=13)
-  plot(protoFreq$freq, xlab = "Protovector", ylab = "Sample Frequency", col = "transparent", col.axis = "transparent")
-  axis(1, labels = rownames(protoFreq), at = 1:nrow(protoFreq))
-  axis(2, labels = 1:max(protoFreq$freq), at = 1:(max(protoFreq$freq)))
-  for (i in 1:nrow(protoFreq)){
-    abline(v = i, col = 8)
-  }
-  for (i in 1:max(protoFreq$freq)){
-    abline(h = i, col = 8)
-  }
-  lines(protoFreq$freq, lwd = 1.5)
-  points(protoFreq$freq)
-  dev.off()
-
-  # Find which samples are represented by which prototypes
-  protoSamples <- array(NA, c(nrow(sampleClasses), nrow(protoVec)))
-  for (i in 1:nrow(protoVec)){
-    for (j in 1:nrow(sampleClasses)){
-      if ((sum(protoVec[i,] == sampleClasses[j,]) == length(l$clusterAlg))){
-        if (is.na(protoSamples[1, i]) == F){
-          protoSamples[min(which(is.na(protoSamples[,i]))), i] <- rownames(sampleClasses)[j]
-        }
-        else {
-          protoSamples[1, i] <- rownames(sampleClasses)[j]
-        }
-      }
-    }
-  }
-
-  # Convert array with columns of differing numbers of NAs for each prototype into a neat list of samples in each prototype
-  protoSamplesL <- list()
-  for (i in 1:ncol(protoSamples)){
-    protoSamplesL[[i]] <- na.omit(protoSamples[,i])
-    attr(protoSamplesL[[i]], "na.action") <- NULL
-  }
-  names(protoSamplesL) <- rownames(protoVec)
-
-  # Enter optimal number of prototype vectors
-  cond <- paste("x > 1 & x <= ", nrow(protoVec), " & !is.na(x)", sep = "")
-  protoOpti <- inputCond(0, "Enter cutoff number of prototype vectors: ", "x", cond)
-
-  # Use k-modes clustering to pair the small prototypes to a larger prototype
-  kmod <- kmodes(protoVec, protoVec[1:protoOpti,], 100)
-  kmod$cluster <- rownames(protoVec)[kmod$cluster]
-  names(kmod$cluster) <- rownames(protoVec)
-  protoClose <- kmod$cluster
-
-  write.table(protoClose, file = paste(Sys.Date(), "prototype_pairs.txt", sep = "_"), quote = F, sep = "\t")
-
-  # Append those samples from small prototypes to their closest larger prototype
-  protoApp <- protoSamplesL
-  for (i in (protoOpti+1):length(protoClose)){
-    protoApp[[protoClose[i]]] <- append(protoApp[[protoClose[i]]], protoApp[[names(protoClose)[i]]])
-  }
-  protoApp <- protoApp[1:protoOpti]
-
-  # Vector of prototype assignments for all samples
-  protoTab <- vector("character", nrow(l$labelledClasses))
-  names(protoTab) <- rownames(l$labelledClasses)
-  for (i in 1:length(protoTab)){
-    for (j in 1:length(protoApp)){
-      if (names(protoTab)[i] %in% protoApp[[j]]){
-        protoTab[i] <- names(protoApp)[j]
-      }
-    }
-  }
-
-  # Plot silhouette width
-  pdf(paste(Sys.Date(), "_", "prototypes_silhouette.pdf", sep = ""), height = 7, width = 9)
-  sk <- silhouette(na.omit(as.numeric(as.factor(protoTab))), dist(t(l$data[,!is.na(protoTab)])))
-  plot(sk, main = "Silhouette width")
-  dev.off()
-
-  cat("prototypes", protoTab, file = l$allClust, sep = c(rep("\t", length(protoTab)), "\n"), append = T)
-  write.table(sapply(protoSamplesL, '[', seq(max(sapply(protoSamplesL, length)))), file = paste(Sys.Date(), protoOpti, "prototype_samples.txt", sep = "_"), quote = F, sep = "\t", na = "")
-  write.table(sapply(protoApp, '[', seq(max(sapply(protoApp, length)))), file = paste(Sys.Date(), protoOpti, "combined_prototype_samples.txt", sep = "_"), quote = F, sep = "\t", na = "")
-  write.table(protoFreq, file = paste(Sys.Date(), protoOpti, "prototype_frequency.txt", sep = "_"), quote = F, sep = "\t")
-  write.table(protoClose, file = paste(Sys.Date(), protoOpti, "prototype_pairs.txt", sep = "_"), quote = F, sep = "\t")
-
-  # Hypergeometric test between known and found subtypes
-  if (!is.null(l$phenoFile)){
-    hyperClust3(table(l$pheno[names(protoTab)], protoTab), paste(Sys.Date(), "_", protoOpti, "_prototypes_known", sep = ""), l)
-  }
-
-  return(protoSamplesL)
-}
-
 read.txt <- function(filename = "NULL") {
   #
   # Reads a gene expression dataset with genes in rows, samples in columns
@@ -1403,7 +1144,6 @@ testClust <- function(l){
       optK <- inputCond(1, paste("Enter optimal k for ", l$clusterAlg[i], ": ", sep = ""), "x", paste0("x > 1 & x <= ", l$maxK, " & !is.na(x)"))
 
       sampleClasses[,i] <- l$consensusMemb[i,, optK - 1]
-      #cat(l$clusterAlg[i], l$consensusMemb[i,, optK - 1], file = l$allClust, sep = c(rep("\t", ncol(data_set)), "\n"), append = T)
       i <- i+1
     }
 
@@ -1414,27 +1154,6 @@ testClust <- function(l){
     for (i in 1:length(l$clusterAlg)){                                            # Add prefixes to class assignments from each algorithm to
       l$labelledClasses[,i] <- factor(paste(l$clusterAlg[i], l$labelledClasses[,i], sep=""))  # distinguish, e.g., hierarchical cluster 1 from k-means cluster 1
     }
-  #
-  #   # Create a table showing the number of samples shared between pairs of clusters from two algorithms
-  #   for (i in 1:length(clusterAlg)){
-  #     for (j in 1:(length(clusterAlg))){
-  #       table <- table(labelledClasses[,i], labelledClasses[,j])
-  #       if (j == 1){
-  #         clusterRow <- table
-  #       }
-  #       else {
-  #         clusterRow <- cbind(clusterRow, table)
-  #       }
-  #     }
-  #     if(i == 1){
-  #       clusterTable <- clusterRow
-  #     }
-  #     else{
-  #       clusterTable <- rbind(clusterTable, clusterRow)
-  #     }
-  #     rm(clusterRow)
-  #   }
-  #
 
   for (i in 1:length(l$clusterAlg)){
     for (j in 1:length(l$clusterAlg)){
@@ -1470,7 +1189,6 @@ testClust <- function(l){
     l$pheno <- l$pheno[rownames(l$labelledClasses)]
     setwd(l$knownTitle)
     allTabs <- sapply(l$labelledClasses, function(x){table(x, l$pheno)}, simplify = FALSE)
-    #for (i in 1:length(allTabs)){hyperClust3(allTabs[[i]], paste(Sys.Date(), names(allTabs[i]), 'hyper_known', sep = '_'), l = l)}
     allKnownHyper <- sapply(1:length(allTabs), function(i){hyperClust3(allTabs[[i]], paste(Sys.Date(), names(allTabs[i]), 'hyper_known', sep = '_'), l = l)}, simplify = FALSE) %>%
       do.call(rbind, .)
 
@@ -1522,9 +1240,6 @@ testClust <- function(l){
 
   nodeEdge(l, c("hyper", "minprop"))
 
-  #setwd(l$protTitle)
-  #protoApp <- protoType(l)
-
   setwd(l$wd)
   return(l)
 }
@@ -1562,8 +1277,6 @@ testClust <- function(l){
   }
   ##
 
-  #sds <- apply(as.matrix(l$data), 1, sd, na.rm = TRUE)
-  #l$data <- l$data[sds >= quantile(sds, probs = 0.9, na.rm = TRUE),]
 
   # Create subfolders to store output
   l$wd <- getwd()
@@ -1576,18 +1289,18 @@ testClust <- function(l){
   initFolder <- paste(Sys.Date(), ref, "initial", sep = "_")
   hypFolder <- paste(Sys.Date(), ref, "hypergeometric", sep = "_")
   propFolder <- paste(Sys.Date(), ref, "proportion", sep = "_")
-  #protFolder <- paste(Sys.Date(), ref, "prototypes", sep = "_")
+
   pamFolder <- paste(Sys.Date(), ref, "pam", sep = "_")
 
   l$initTitle <- paste(l$analysisTitle, initFolder, "/", sep = "")
   l$hypTitle <- paste(l$analysisTitle, hypFolder, "/", sep = "")
   l$propTitle <- paste(l$analysisTitle, propFolder, "/", sep = "")
-  #l$protTitle <- paste(l$analysisTitle, protFolder, "/", sep = "")
+
   l$pamTitle <- paste(l$analysisTitle, pamFolder, "/", sep = "")
   l$knownTitle <- paste0(l$analysisTitle, initFolder, "/", Sys.Date(), "_known_hypergeometric", "/")
 
   dir.create(l$hypTitle); dir.create(l$propTitle); dir.create(l$initTitle); dir.create(l$knownTitle); dir.create(l$pamTitle)
-  #dir.create(l$protTitle)
+
   
   if ("nmf" %in% clusterAlg){
     nmfFolder <- paste(Sys.Date(), "nmf", sep = "_")
