@@ -11,11 +11,11 @@ pamCentroids <- function(l){
   centroids <- lapply(1:ncol(allAssign), function(i, x, label){
     cl <- na.omit(as.numeric(x[,i]))
     dataList <- list(batchlabels = batchLabels, x = l$data[,names(na.omit(x[,i]))], y = cl, genenames = geneNames, geneid = geneID)
-    dataList <- pamr.knnimpute(dataList)
-    dataTrain <- pamr.train(dataList)
-    pamTT <- pamr.listgenes(dataTrain, dataList, threshold = 0) %>%
+    capture.output(dataList <- pamr.knnimpute(dataList))
+    capture.output(dataTrain <- pamr.train(dataList))
+    capture.output(pamTT <- pamr.listgenes(dataTrain, dataList, threshold = 0) %>%
       set_rownames(extract(.,,1)) %>%
-      extract(.,,-1)
+      extract(.,,-1))
     class(pamTT) <- 'numeric'
     pamTTuniq <- pamTT[apply(pamTT, 1, function(x){sum(x > 0) == 1}),]
     write.table(pamTTuniq, paste0(l$pamTitle, Sys.Date(), '_', label[i], '_pam.txt'), sep = '\t', quote = FALSE)
