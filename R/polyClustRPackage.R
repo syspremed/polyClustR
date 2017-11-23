@@ -95,12 +95,12 @@ polyCluster <- function(filename, clusterAlg = c("hc", "pm", "km", "nmf"),
 
   # Cluster data
   l <- performClust(l, nmfData)
-  save(list = ls(), file = paste0(l$analysisTitle, Sys.Date(), "_session_data.Rdata"))
+  message(paste('Clustering complete.\n\n* See', l$initTitle,
+                ' *\n* for summary statistics and detailed clustering output. *\n\nTo exit, press esc.\n'))
   ##
 
   # Reconcile clusters
   l <- testClust(l)
-  save(list = ls(), file = paste0(l$analysisTitle, Sys.Date(), "_session_data.Rdata"))
   ##
 
   # Get PAM centroids

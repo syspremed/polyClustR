@@ -24,37 +24,37 @@ performClust <- function(l, nmfData = NULL){
   # store the consensus matrices and cophenetic coefficients
   
   if ("hc" %in% l$clusterAlg){
-    writeLines("Starting hierarchical clustering...")
+    message("Starting hierarchical clustering...")
     hcccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "hc", distance = "pearson", title=paste(Sys.Date(), "hc", sep="_"))
     l$consensusMemb[which(l$clusterAlg == "hc"),,] <- data.matrix(hcccp[[length(hcccp)]])
     for (i in 2:(length(hcccp)-2)){
       consensusMat[which(l$clusterAlg == "hc"), i-1,,] <- hcccp[[i]]$consensusMatrix
     }
-    writeLines("Completed hierarchical clustering.")
+    message("Completed hierarchical clustering.\n")
   }
   
   if ("km" %in% l$clusterAlg){
-    writeLines("Starting k-means clustering...")
+    message("Starting k-means clustering...")
     kmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "km", distance = "euclidean", title = paste(Sys.Date(), "km", sep="_"))
     l$consensusMemb[which(l$clusterAlg == "km"),,] <- data.matrix(kmccp[[length(kmccp)]])
     for (i in 2:(length(kmccp)-2)){
       consensusMat[which(l$clusterAlg == "km"), i-1,,] <- kmccp[[i]]$consensusMatrix
     }
-    writeLines("Completed k-means clustering.")
+    message("Completed k-means clustering.\n")
   }
   
   if ("pm" %in% l$clusterAlg){
-    writeLines("Starting partitioning around medoids clustering...")
+    message("Starting partitioning around medoids clustering...")
     pmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "pam", distance = "euclidean", title = paste(Sys.Date(), "pm", sep="_"))
     l$consensusMemb[which(l$clusterAlg == "pm"),,] <- data.matrix(pmccp[[length(pmccp)]])
     for (i in 2:(length(pmccp)-2)){
       consensusMat[which(l$clusterAlg == "pm"), i-1,,] <- pmccp[[i]]$consensusMatrix
     }
-    writeLines("Completed partitioning around medoids clustering.")
+    message("Completed partitioning around medoids clustering.\n")
   }
   
   if ("nmf" %in% l$clusterAlg){
-    writeLines("Starting nonnegative matrix factorization clustering (this may take some time)...")
+    message("Starting nonnegative matrix factorization clustering (this may take some time)...")
     
     if(is.null(nmfData)){
       datapos <- nneg(l$data, method = 'pmax')
@@ -84,7 +84,7 @@ performClust <- function(l, nmfData = NULL){
     
     
     l$consensusMemb[which(l$clusterAlg == "nmf"),,] <- sapply(nmfccp$fit, function(x){as.numeric(predict(x, what = 'consensus'))})
-    writeLines("Completed nonnegative matrix factorization clustering.")
+    message("Completed nonnegative matrix factorization clustering.\n")
   }
   
   
