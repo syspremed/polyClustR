@@ -4,6 +4,8 @@ polyClustR
 Introduction
 ------------
 
+The polyClustR package provides an R implementation of the pipeline described in *polyCluster: Defining Communities of Reconciled Cancer Subtypes with Biological and Prognostic Significance*, K Eason, G Nyamundanda, A Sadandandam.
+
 Installation & Usage
 --------------------
 

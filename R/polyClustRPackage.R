@@ -3,9 +3,9 @@
   #' @description Runs the entire polyCluster pipeline.
   #' 
   #' @param filename     Character string. File name of preprocessed and normalized expression values with genes in rows and samples in columns
-  #' @param clusterAlg   Character vector. Any combination of "hc" (hierarchical clustering), "pm" (partitioning around medoids), "km" (k-means) or "nmf" (nonnegative matrix factorization)
+  #' @param clusterAlg   Character vector. Any combination of \code{"hc"} (hierarchical clustering), \code{"pm"} (partitioning around medoids), \code{"km"} (k-means) or \code{"nmf"} (nonnegative matrix factorization)
   #' @param maxK         Integer > 2. The maximum number of clusters of samples to evaluate.
-  #' @param reps         Integer. The number of resampling (for "hc", "pm" and "km") or starting seed ("nmf") iterations.
+  #' @param reps         Integer. The number of resampling (for \code{"hc"}, \code{"pm"} and \code{"km"}) or starting seed (\code{"nmf"}) iterations.
   #' @param phenoFile    Character string. File name of known phenotypes, with sample name in first column and phenotype in second column.
   #' @param ref          Character string. Reference with which to name the output of the analysis.
   #' @param nmfData      Character string. File path to the result of a previous NMF clustering by this function, in order to save time.
