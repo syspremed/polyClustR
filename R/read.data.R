@@ -9,7 +9,7 @@
   #' @return Returns the expression dataset.
 #'
 read.txt <- function(filename = "NULL") {
-  data_set <- read.delim(filename, header=T, quote="", row.names=1, blank.lines.skip=T, comment.char="", as.is=T, check.names=F)
+  data_set <- read.delim(filename, header=T, quote="", row.names=1, blank.lines.skip=T, comment.char="", as.is=T, check.names=T)
   data_set <- data.matrix(data_set)
   return(data_set)
 }
@@ -25,7 +25,7 @@ read.txt <- function(filename = "NULL") {
   #' @return Returns the expression dataset.
   #'
 read.gct <- function(filename = "NULL") {
-  data_set <- read.delim(filename, header=T, quote="", skip=2, row.names=1, blank.lines.skip=T, comment.char="", as.is=T, check.names=F)
+  data_set <- read.delim(filename, header=T, quote="", skip=2, row.names=1, blank.lines.skip=T, comment.char="", as.is=T, check.names=T)
   data_set <- data_set[-1]
   data_set <- data.matrix(data_set)
   return(data_set)
