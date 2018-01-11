@@ -19,3 +19,4 @@ polyCluster('path/to/expression/file', clusterAlg = c('hc', 'km'), ref = 'test_r
 ```
 
 For full details of the arguments required to run `polyCluster`, see `?polyCluster`.
+If you have any problems running polyCluster, please let us know using the "Issues" tab above.

@@ -63,6 +63,9 @@ testClust <- function(l){
   
   if (!is.null(l$phenoFile)){
     l$pheno <- as.matrix(read.table(l$phenoFile, header = FALSE, row.names = 1, skip = 1))[, 1]
+    if(all(substr(rownames(l$labelledClasses), 1, 1) == 'X') & !all(substr(rownames(l$pheno), 1, 1) == 'X')){
+       rownames(l$pheno) <- paste0('X', rownames(l$pheno))
+    }
     l$pheno <- l$pheno[rownames(l$labelledClasses)]
     setwd(l$knownTitle)
     allTabs <- sapply(l$labelledClasses, function(x){table(x, l$pheno)}, simplify = FALSE)
