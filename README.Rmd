@@ -18,7 +18,11 @@ devtools::install_github('syspremed/polyClustR')
 
 library(polyClustR)
 
-polyCluster('path/to/expression/file', clusterAlg = c('hc', 'km'), ref = 'test_run')
+# Example breast dataset is provided with installation
+exampleGE <- system.file('extdata', 'chine_breast_example_GE.txt', package = 'polyClustR')
+exampleKnownSubtypes <- system.file('extdata', 'chine_breast_example_known_subtypes.txt', package = 'polyClustR')
+
+polyCluster(exampleGE, clusterAlg = c('hc', 'km'), phenoFile = exampleKnownSubtypes, ref = 'test_run')
 # Output is written to the current working directory.
 ```
 
