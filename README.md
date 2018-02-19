@@ -24,4 +24,14 @@ polyCluster(exampleGE, clusterAlg = c('hc', 'km'), phenoFile = exampleKnownSubty
 
 For full details of the arguments required to run `polyCluster`, see `?polyCluster`.
 
-If you have any issues running polyCluster, please let us know using the "Issues" tab above.
+If you have any issues running polyClustR, please report them using the "Issues" tab above.
+
+Default clustering parameters are:
+
+| Parameter                                        | Value     |
+|--------------------------------------------------|-----------|
+| Consensus resamplings                            | 100       |
+| Proportion of items sampled per subsample        | 0.8       |
+| Clustering distance                              | Euclidean |
+| Heirarchical linkage method for subsampling      | Average   |
+| Heirarchical linkage method for consensus matrix | Average   |
