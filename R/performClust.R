@@ -25,7 +25,7 @@ performClust <- function(l, nmfData = NULL){
   
   if ("hc" %in% l$clusterAlg){
     message("Starting hierarchical clustering...")
-    hcccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "hc", distance = "euclidean", title=paste(Sys.Date(), "hc", sep="_"))
+    hcccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "hc", distance = "pearson", title=paste(Sys.Date(), "hc", sep="_"))
     l$consensusMemb[which(l$clusterAlg == "hc"),,] <- data.matrix(hcccp[[length(hcccp)]])
     for (i in 2:(length(hcccp)-2)){
       consensusMat[which(l$clusterAlg == "hc"), i-1,,] <- hcccp[[i]]$consensusMatrix
