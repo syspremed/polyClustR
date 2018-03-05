@@ -25,7 +25,7 @@ performClust <- function(l, nmfData = NULL){
   
   if ("hc" %in% l$clusterAlg){
     message("Starting hierarchical clustering...")
-    hcccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "hc", distance = "pearson", title=paste(Sys.Date(), "hc", sep="_"))
+    hcccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "hc", distance = "pearson", title=paste(Sys.Date(), "hc", sep="_"), seed = l$seed)
     l$consensusMemb[which(l$clusterAlg == "hc"),,] <- data.matrix(hcccp[[length(hcccp)]])
     for (i in 2:(length(hcccp)-2)){
       consensusMat[which(l$clusterAlg == "hc"), i-1,,] <- hcccp[[i]]$consensusMatrix
@@ -35,7 +35,7 @@ performClust <- function(l, nmfData = NULL){
   
   if ("km" %in% l$clusterAlg){
     message("Starting k-means clustering...")
-    kmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "km", distance = "euclidean", title = paste(Sys.Date(), "km", sep="_"))
+    kmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "km", distance = "euclidean", title = paste(Sys.Date(), "km", sep="_"), seed = l$seed)
     l$consensusMemb[which(l$clusterAlg == "km"),,] <- data.matrix(kmccp[[length(kmccp)]])
     for (i in 2:(length(kmccp)-2)){
       consensusMat[which(l$clusterAlg == "km"), i-1,,] <- kmccp[[i]]$consensusMatrix
@@ -45,7 +45,7 @@ performClust <- function(l, nmfData = NULL){
   
   if ("pm" %in% l$clusterAlg){
     message("Starting partitioning around medoids clustering...")
-    pmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "pam", distance = "euclidean", title = paste(Sys.Date(), "pm", sep="_"))
+    pmccp <- CCP(l$data, maxK = l$maxK, reps = l$reps, clusterAlg = "pam", distance = "euclidean", title = paste(Sys.Date(), "pm", sep="_"), seed = l$seed)
     l$consensusMemb[which(l$clusterAlg == "pm"),,] <- data.matrix(pmccp[[length(pmccp)]])
     for (i in 2:(length(pmccp)-2)){
       consensusMat[which(l$clusterAlg == "pm"), i-1,,] <- pmccp[[i]]$consensusMatrix
@@ -58,7 +58,7 @@ performClust <- function(l, nmfData = NULL){
     
     if(is.null(nmfData)){
       datapos <- nneg(l$data, method = 'pmax')
-      nmfccp <- NMF::nmf(datapos, 2:l$maxK, method = 'brunet', nrun = l$reps)
+      nmfccp <- NMF::nmf(datapos, 2:l$maxK, method = 'brunet', nrun = l$reps, seed = l$seed)
       
       save(nmfccp, file = paste(Sys.Date(), "_nmf_result.rda", sep = ""))
     }
