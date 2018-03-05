@@ -32,6 +32,6 @@ Default clustering parameters are:
 |--------------------------------------------------|-----------|
 | Consensus resamplings                            | 100       |
 | Proportion of items sampled per subsample        | 0.8       |
-| Clustering distance                              | Euclidean |
+| Clustering distance                              | Euclidean (km), Pearson (hc) |
 | Heirarchical linkage method for subsampling      | Average   |
 | Heirarchical linkage method for consensus matrix | Average   |
