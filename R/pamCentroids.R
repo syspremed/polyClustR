@@ -18,7 +18,7 @@ pamCentroids <- function(l){
   centroids <- lapply(1:ncol(allAssign), function(i, x, label){
     cl <- na.omit(as.numeric(x[,i]))
     dataList <- list(batchlabels = batchLabels, x = l$data[,names(na.omit(x[,i]))], y = cl, genenames = geneNames, geneid = geneID)
-    capture.output(dataList <- pamr.knnimpute(dataList))
+    #capture.output(dataList <- pamr.knnimpute(dataList)) ## pamr.knnimpute has been removed from the CRAN package
     capture.output(dataTrain <- pamr.train(dataList))
     capture.output(pamTT <- pamr.listgenes(dataTrain, dataList, threshold = 0) %>%
       set_rownames(extract(.,,1)) %>%
