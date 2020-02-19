@@ -23,5 +23,6 @@ Imports:
     plyr,
     magrittr,
     pamr,
-    RColorBrewer
+    RColorBrewer,
+    NMF
 RoxygenNote: 6.0.1
